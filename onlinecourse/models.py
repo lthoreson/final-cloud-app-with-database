@@ -125,7 +125,7 @@ class Question(models.Model):
     # Indicate if this choice of the question is a correct one or not
     # Other fields and methods you would like to design
 class Choice(models.Model):
-    course = models.ForeignKey(Question, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
     text = models.CharField(max_length=2000)
     is_correct = models.BooleanField(default=True)
 # <HINT> The submission model

@@ -122,9 +122,8 @@ def submit(request, course_id):
     course = get_object_or_404(Course, pk=course_id)
     user = request.user
     enrollment = Enrollment.objects.get(user=user, course=course)
+    choices = Choice.objects.filter(id__in=extract_answers(request))
     submission = Submission.objects.create(enrollment=enrollment)
-    submission.choices = Choice.objects.filter(id__in=extract_answers(request))
-    submission.save()
     return redirect('onlinecourse:show_exam_result')
 
 # <HINT> A example method to collect the selected choices from the exam form from the request object
@@ -144,7 +143,12 @@ def submit(request, course_id):
         # Get the selected choice ids from the submission record
         # For each selected choice, check if it is a correct answer or not
         # Calculate the total score
-#def show_exam_result(request, course_id, submission_id):
+def show_exam_result(request, course_id, submission_id):
+    course = get_object_or_404(Course, pk=course_id)
+    submission = get_object_or_404(Submission, pk=submission_id)
+    selected_ids = submission.choices
+    
+    context = {'course': course, 'selected_ids': selected_ids}
 
 
 
